@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import net.objecthunter.exp4j.ExpressionBuilder
 import ru.kre4.cursedcalculator.logic.CalculatorKey
 import ru.kre4.cursedcalculator.ui.elements.ButtonLayout
 
@@ -29,7 +30,7 @@ fun CalculatorWindow(modifier: Modifier = Modifier) {
                 expression = when (key) {
                     CalculatorKey.Backspace -> expression.dropLast(1)
                     CalculatorKey.Clear -> ""
-                    CalculatorKey.Evaluate -> TODO()
+                    CalculatorKey.Evaluate -> ExpressionBuilder(expression).build().evaluate().toString()
                     else -> expression + key.displayText
                 }
 
