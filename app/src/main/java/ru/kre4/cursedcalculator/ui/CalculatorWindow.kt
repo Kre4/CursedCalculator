@@ -1,25 +1,39 @@
 package ru.kre4.cursedcalculator.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import ru.kre4.cursedcalculator.logic.CalculatorKey
 import ru.kre4.cursedcalculator.ui.elements.ButtonLayout
-import ru.kre4.cursedcalculator.ui.elements.SquareButton
 
 @Composable
 fun CalculatorWindow(modifier: Modifier = Modifier) {
-
+    var expression by remember { mutableStateOf("") }
     Column(modifier = modifier) {
-        Text(text = "there will be value", modifier = Modifier.weight(0.3f).fillMaxWidth())
-        ButtonLayout(modifier = modifier)
+        Text(
+            text = expression,
+            modifier = Modifier
+                .weight(0.3f)
+                .fillMaxWidth()
+        )
+        ButtonLayout(
+            modifier = Modifier
+                .fillMaxWidth(),
+            keyHandler = { key ->
+                expression = when (key) {
+                    CalculatorKey.Backspace -> expression.dropLast(1)
+                    CalculatorKey.Clear -> ""
+                    CalculatorKey.Evaluate -> TODO()
+                    else -> expression + key.displayText
+                }
+
+            }
+        )
     }
 }
